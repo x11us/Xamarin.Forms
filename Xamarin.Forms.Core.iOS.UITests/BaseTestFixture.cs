@@ -16,11 +16,22 @@ namespace Xamarin.Forms.Core.UITests
 	{
 		// TODO: Landscape tests
 
-		public static IApp App { get; private set; }
+		public static IApp App { get; set; }
 		public string PlatformViewType { get; protected set; }
-		public AppRect ScreenBounds { get; private set; }
+		public static AppRect ScreenBounds { get; set; }
 
-		protected BaseTestFixture()
+		[TestFixtureTearDown]
+		protected virtual void FixtureTeardown()
+		{
+		}
+
+		[SetUp]
+		protected virtual void TestSetup()
+		{
+		}
+
+		[TearDown]
+		protected virtual void TestTearDown()
 		{
 		}
 
@@ -31,46 +42,44 @@ namespace Xamarin.Forms.Core.UITests
 #pragma warning restore 618
 		protected virtual void FixtureSetup()
 		{
-			LaunchApp();
+			ResetApp();
+			NavigateToGallery();
 		}
 
-#pragma warning disable 618
-		[TestFixtureTearDown]
-#pragma warning restore 618
-		protected virtual void FixtureTeardown()
+		void ResetApp()
 		{
+#if __IOS__
+			App.Invoke("reset:", string.Empty);
+#endif
+#if __ANDROID__
+				App.Invoke("Reset");
+#endif
 		}
+	}
+}
 
+#if UITEST
+namespace Xamarin.Forms.Core.UITests
+{
+	using NUnit.Framework;
+
+	[SetUpFixture]
+	public class CoreUITestsSetup
+	{
 		[SetUp]
-		protected virtual void TestSetup()
+		public void RunBeforeAnyTests()
 		{
-			
-		}
-
-		[TearDown]
-		protected virtual void TestTearDown()
-		{
-
+			LaunchApp();
 		}
 
 		void LaunchApp()
 		{
-			App = null;
-			App = AppSetup.Setup();
+			BaseTestFixture.App = null;
+			BaseTestFixture.App = AppSetup.Setup();
 
-			App.SetOrientationPortrait();
-			ScreenBounds = App.RootViewRect();
-			NavigateToGallery();
+			BaseTestFixture.App.SetOrientationPortrait();
+			BaseTestFixture.ScreenBounds = BaseTestFixture.App.RootViewRect();
 		}
-
-//		void ResetApp()
-//		{
-//#if __IOS__
-//			App.Invoke("reset:", string.Empty);
-//#endif
-//#if __ANDROID__
-//				App.Invoke("Reset");
-//#endif
-//		}
 	}
 }
+#endif
