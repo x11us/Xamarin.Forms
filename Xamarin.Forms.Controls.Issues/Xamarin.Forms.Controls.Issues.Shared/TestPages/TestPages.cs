@@ -69,7 +69,7 @@ namespace Xamarin.Forms.Controls
 		}
 #endif
 
-		static void NavigateToIssue (Type type, IApp app)
+		public static void NavigateToIssue (Type type, IApp app)
 		{
 			var typeIssueAttribute = type.GetTypeInfo ().GetCustomAttribute <IssueAttribute> ();
 
@@ -128,6 +128,8 @@ namespace Xamarin.Forms.Controls
 
 			return runningApp;
 		}
+
+		public static IApp RunningApp { get; set; }
 	}
 #endif
 
@@ -159,7 +161,7 @@ namespace Xamarin.Forms.Controls
 	public abstract class TestContentPage : ContentPage
 	{
 #if UITEST
-		public IApp RunningApp { get; private set; }
+		public IApp RunningApp => AppSetup.RunningApp;
 #endif
 
 		protected TestContentPage ()
@@ -173,7 +175,7 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup ()
 		{
-			RunningApp = AppSetup.Setup (GetType ());
+			AppSetup.NavigateToIssue(GetType(), RunningApp);
 		}
 #endif
 
@@ -276,3 +278,21 @@ namespace Xamarin.Forms.Controls
 		protected abstract void Init ();
 	}
 }
+
+#if UITEST
+namespace Xamarin.Forms.Controls.Issues
+{
+	using System;
+	using NUnit.Framework;
+
+	[SetUpFixture]
+	public class IssuesSetup
+	{
+		[SetUp]
+		public void RunBeforeAnyTests()
+		{
+			AppSetup.RunningApp = AppSetup.Setup(null);
+		}
+	}
+}
+#endif
