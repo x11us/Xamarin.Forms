@@ -129,6 +129,23 @@ namespace Xamarin.Forms.Controls
 			return runningApp;
 		}
 
+		public static void EnsureConnection()
+		{
+			if (RunningApp != null)
+			{
+				try
+				{
+					RunningApp.TestServer.Get("");
+					return;
+				}
+				catch (Exception ex)
+				{
+				}
+
+				RunningApp = InitializeApp();
+			}
+		}
+
 		public static IApp RunningApp { get; set; }
 	}
 #endif
@@ -136,7 +153,7 @@ namespace Xamarin.Forms.Controls
 	public abstract class TestPage : Page
 	{
 #if UITEST
-		public IApp RunningApp { get; private set; }
+		public IApp RunningApp => AppSetup.RunningApp;
 #endif
 
 		protected TestPage ()
@@ -148,9 +165,10 @@ namespace Xamarin.Forms.Controls
 
 #if UITEST
 		[SetUp]
-		public void Setup ()
+		public void Setup()
 		{
-			RunningApp = AppSetup.Setup (GetType ());
+			AppSetup.EnsureConnection();
+			AppSetup.NavigateToIssue(GetType(), RunningApp);
 		}
 #endif
 
@@ -175,6 +193,7 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup ()
 		{
+			AppSetup.EnsureConnection();
 			AppSetup.NavigateToIssue(GetType(), RunningApp);
 		}
 #endif
@@ -185,7 +204,7 @@ namespace Xamarin.Forms.Controls
 	public abstract class TestCarouselPage : CarouselPage
 	{
 #if UITEST
-		public IApp RunningApp { get; private set; }
+		public IApp RunningApp => AppSetup.RunningApp;
 #endif
 
 		protected TestCarouselPage ()
@@ -197,9 +216,10 @@ namespace Xamarin.Forms.Controls
 
 #if UITEST
 		[SetUp]
-		public void Setup ()
+		public void Setup()
 		{
-			RunningApp = AppSetup.Setup (GetType ());
+			AppSetup.EnsureConnection();
+			AppSetup.NavigateToIssue(GetType(), RunningApp);
 		}
 #endif
 
@@ -209,7 +229,7 @@ namespace Xamarin.Forms.Controls
 	public abstract class TestMasterDetailPage : MasterDetailPage
 	{
 #if UITEST
-		public IApp RunningApp { get; private set; }
+		public IApp RunningApp => AppSetup.RunningApp;
 #endif
 
 		protected TestMasterDetailPage ()
@@ -221,9 +241,10 @@ namespace Xamarin.Forms.Controls
 
 #if UITEST
 		[SetUp]
-		public void Setup ()
+		public void Setup()
 		{
-			RunningApp = AppSetup.Setup (GetType ());
+			AppSetup.EnsureConnection();
+			AppSetup.NavigateToIssue(GetType(), RunningApp);
 		}
 #endif
 
@@ -233,7 +254,7 @@ namespace Xamarin.Forms.Controls
 	public abstract class TestNavigationPage : NavigationPage
 	{
 #if UITEST
-		public IApp RunningApp { get; private set; }
+		public IApp RunningApp => AppSetup.RunningApp;
 #endif
 
 		protected TestNavigationPage ()
@@ -245,9 +266,10 @@ namespace Xamarin.Forms.Controls
 
 #if UITEST
 		[SetUp]
-		public void Setup ()
+		public void Setup()
 		{
-			RunningApp = AppSetup.Setup (GetType ());
+			AppSetup.EnsureConnection();
+			AppSetup.NavigateToIssue(GetType(), RunningApp);
 		}
 #endif
 
@@ -257,7 +279,7 @@ namespace Xamarin.Forms.Controls
 	public abstract class TestTabbedPage : TabbedPage
 	{
 #if UITEST
-		public IApp RunningApp { get; private set; }
+		public IApp RunningApp => AppSetup.RunningApp;
 #endif
 
 		protected TestTabbedPage ()
@@ -269,9 +291,10 @@ namespace Xamarin.Forms.Controls
 
 #if UITEST
 		[SetUp]
-		public void Setup ()
+		public void Setup()
 		{
-			RunningApp = AppSetup.Setup (GetType ());
+			AppSetup.EnsureConnection();
+			AppSetup.NavigateToIssue(GetType(), RunningApp);
 		}
 #endif
 

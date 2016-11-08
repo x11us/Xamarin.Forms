@@ -5,7 +5,7 @@ using Xamarin.Forms.Internals;
 using NUnit.Framework;
 #endif
 
-namespace Xamarin.Forms.Controls
+namespace Xamarin.Forms.Controls.Issues
 {
     [Preserve(AllMembers = true)]
     [Issue(IssueTracker.Bugzilla, 40173, "Android BoxView/Frame not clickthrough in ListView")]
