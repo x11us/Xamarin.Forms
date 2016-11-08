@@ -22,7 +22,7 @@ namespace Xamarin.Forms.Xaml
 		public XamlCompilationOptions XamlCompilationOptions { get; set; }
 	}
 
-	internal static class XamlCExtensions
+	static class XamlCExtensions
 	{
 		public static bool IsCompiled(this Type type)
 		{
@@ -37,14 +37,6 @@ namespace Xamarin.Forms.Xaml
 				return attr.XamlCompilationOptions == XamlCompilationOptions.Compile;
 
 			return false;
-		}
-	}
-
-	[AttributeUsage(AttributeTargets.Class, Inherited = false)]
-	public sealed class XamlFilePathAttribute : Attribute
-	{
-		public XamlFilePathAttribute([CallerFilePath] string filePath = "")
-		{
 		}
 	}
 }

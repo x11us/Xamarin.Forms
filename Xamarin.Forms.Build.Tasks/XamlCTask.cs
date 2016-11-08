@@ -248,6 +248,11 @@ namespace Xamarin.Forms.Build.Tasks
 					}
 					LogLine(2, "");
 
+					CustomAttribute xamlFilePathAttr;
+					var xamlFilePath = typeDef.HasCustomAttributes && (xamlFilePathAttr = typeDef.CustomAttributes.FirstOrDefault(ca => ca.AttributeType.FullName == "Xamarin.Forms.Xaml.XamlFilePathAttribute")) != null ?
+											  (string)xamlFilePathAttr.ConstructorArguments [0].Value :
+											  resource.Name;
+
 					var initCompRuntime = typeDef.Methods.FirstOrDefault(md => md.Name == "__InitComponentRuntime");
 					if (initCompRuntime != null)
 						LogLine(2, "   __InitComponentRuntime already exists... not duplicating");
@@ -274,7 +279,7 @@ namespace Xamarin.Forms.Build.Tasks
 						success = false;
 						LogLine(2, "failed.");
 						thrownExceptions?.Add(e);
-						LogException(null, null, null, resource.Name, e);
+						LogException(null, null, null, xamlFilePath, e);
 						LogLine(4, e.StackTrace);
 						continue;
 					}
