@@ -9,8 +9,6 @@ namespace Xamarin.Forms.Core.UITests
 
 		public AppearingUITests ()
 		{
-			ShouldResetPerFixture = false;
-			Isolate = true;
 		}
 
 		protected override void NavigateToGallery ()

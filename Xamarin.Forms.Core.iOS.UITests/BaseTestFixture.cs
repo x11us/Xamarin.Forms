@@ -18,14 +18,10 @@ namespace Xamarin.Forms.Core.UITests
 
 		public static IApp App { get; private set; }
 		public string PlatformViewType { get; protected set; }
-		public bool ShouldResetPerFixture { get; protected set; }
 		public AppRect ScreenBounds { get; private set; }
-
-		protected bool Isolate;
 
 		protected BaseTestFixture()
 		{
-			ShouldResetPerFixture = true;
 		}
 
 		protected abstract void NavigateToGallery();
@@ -35,18 +31,7 @@ namespace Xamarin.Forms.Core.UITests
 #pragma warning restore 618
 		protected virtual void FixtureSetup()
 		{
-			try
-			{
-				if (ShouldResetPerFixture)
-				{
-					RelaunchApp();
-				}
-			}
-			catch (Exception ex)
-			{
-				Debug.WriteLine(ex);
-				throw;
-			}
+			LaunchApp();
 		}
 
 #pragma warning disable 618
@@ -59,11 +44,7 @@ namespace Xamarin.Forms.Core.UITests
 		[SetUp]
 		protected virtual void TestSetup()
 		{
-			if (!ShouldResetPerFixture)
-			{
-
-				RelaunchApp();
-			}
+			
 		}
 
 		[TearDown]
@@ -72,24 +53,24 @@ namespace Xamarin.Forms.Core.UITests
 
 		}
 
-		void RelaunchApp()
+		void LaunchApp()
 		{
 			App = null;
-			App = AppSetup.Setup(isolate: Isolate);
-
-			if (!Isolate)
-			{
-#if __IOS__
-				App.Invoke("reset:", string.Empty);
-#endif
-#if __ANDROID__
-				App.Invoke("Reset");
-#endif
-			}
+			App = AppSetup.Setup();
 
 			App.SetOrientationPortrait();
 			ScreenBounds = App.RootViewRect();
 			NavigateToGallery();
 		}
+
+//		void ResetApp()
+//		{
+//#if __IOS__
+//			App.Invoke("reset:", string.Empty);
+//#endif
+//#if __ANDROID__
+//				App.Invoke("Reset");
+//#endif
+//		}
 	}
 }
