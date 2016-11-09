@@ -425,7 +425,11 @@ namespace Xamarin.Forms
 
 			protected override Task<Page> OnPopAsync(bool animated)
 			{
-				return Owner.PopAsync(animated);
+				return Owner.PopAsync(animated).ContinueWith((t) =>
+				{
+					Owner.CurrentNavigationTask = null;
+					return t.Result;
+				});
 			}
 
 			protected override Task OnPopToRootAsync(bool animated)

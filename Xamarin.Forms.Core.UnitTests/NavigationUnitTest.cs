@@ -43,6 +43,7 @@ namespace Xamarin.Forms.Core.UnitTests
 			var popped = await nav.Navigation.PopAsync ();
 
 			Assert.True (fired);
+			Assert.IsNull(nav.CurrentNavigationTask);
 			Assert.AreSame (childRoot, nav.CurrentPage);
 			Assert.AreEqual (childRoot2, popped);
 
