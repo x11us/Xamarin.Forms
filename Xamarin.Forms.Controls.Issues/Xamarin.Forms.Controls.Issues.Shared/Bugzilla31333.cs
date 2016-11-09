@@ -218,6 +218,7 @@ namespace Xamarin.Forms.Controls.Issues
 			RunningApp.EnterText ("Entry in ListView Success");
 			Assert.True(RunningApp.Query(query => query.Text("Entry in ListView Success")).Length > 0);
 			RunningApp.Screenshot ("Entry in ListView Success");
+			RunningApp.Tap(q => q.Marked("Focus Entry in ListView"));
 		}
 
 		[Test]
@@ -229,6 +230,7 @@ namespace Xamarin.Forms.Controls.Issues
 			RunningApp.EnterText ("Editor in ListView Success");
 			Assert.True(RunningApp.Query(query => query.Text("Editor in ListView Success")).Length > 0);
 			RunningApp.Screenshot ("Editor in ListView Success");
+			RunningApp.Tap(q => q.Marked("Focus Editor in ListView"));
 		}
 
 		
@@ -241,6 +243,7 @@ namespace Xamarin.Forms.Controls.Issues
 			RunningApp.EnterText ("Entry in TableView Success");
 			Assert.True(RunningApp.Query(query => query.Text("Entry in TableView Success")).Length > 0);
 			RunningApp.Screenshot ("Entry in TableView Success");
+			RunningApp.Tap(q => q.Marked("Focus Entry in Table"));
 		}
 
 		[Test]
@@ -252,6 +255,7 @@ namespace Xamarin.Forms.Controls.Issues
 			RunningApp.EnterText ("Editor in TableView Success");
 			Assert.True(RunningApp.Query(query => query.Text("Editor in TableView Success")).Length > 0);
 			RunningApp.Screenshot ("Editor in TableView Success");
+			RunningApp.Tap(q => q.Marked("Focus Editor in Table"));
 		}
 #endif
 	}

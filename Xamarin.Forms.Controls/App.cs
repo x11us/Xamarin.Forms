@@ -167,11 +167,8 @@ namespace Xamarin.Forms.Controls
 		{
 			try
 			{
-				if (Current.MainPage.AutomationId != DefaultMainPageId)
-				{
-					SetMainPage(CreateDefaultMainPage());
-				}
-
+				SetMainPage(CreateDefaultMainPage());
+				
 				Current.MainPage.Navigation.PushModalAsync(TestCases.GetTestCases());
 
 				TestCases.TestCaseScreen.PageToAction[test]();
