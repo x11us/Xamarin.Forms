@@ -146,6 +146,37 @@ namespace Xamarin.Forms.Controls
 			}
 		}
 
+		static int s_testsrun;
+		const int ConsecutiveTestLimit = 30;
+
+		public static void EnsureMemory()
+		{
+			if (RunningApp != null)
+			{
+				s_testsrun += 1;
+
+				if (s_testsrun >= ConsecutiveTestLimit)
+				{
+					s_testsrun = 0;
+					RunningApp = InitializeApp();
+				}
+			}
+		}
+
+		public static void BeginIsolate()
+		{
+			if (RunningApp != null && s_testsrun > 0)
+			{
+				s_testsrun = 0;
+				RunningApp = InitializeApp();
+			}
+		}
+
+		public static void EndIsolate()
+		{
+			s_testsrun = ConsecutiveTestLimit;
+		}
+
 		public static IApp RunningApp { get; set; }
 	}
 #endif
@@ -154,6 +185,8 @@ namespace Xamarin.Forms.Controls
 	{
 #if UITEST
 		public IApp RunningApp => AppSetup.RunningApp;
+
+		protected virtual bool Isolate => false;
 #endif
 
 		protected TestPage ()
@@ -167,8 +200,26 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup()
 		{
-			AppSetup.EnsureConnection();
+			if (Isolate)
+			{
+				AppSetup.BeginIsolate();
+			}
+			else
+			{
+				AppSetup.EnsureMemory();
+				AppSetup.EnsureConnection();
+			}
+
 			AppSetup.NavigateToIssue(GetType(), RunningApp);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (Isolate)
+			{
+				AppSetup.EndIsolate();
+			}
 		}
 #endif
 
@@ -180,6 +231,8 @@ namespace Xamarin.Forms.Controls
 	{
 #if UITEST
 		public IApp RunningApp => AppSetup.RunningApp;
+
+		protected virtual bool Isolate => false;
 #endif
 
 		protected TestContentPage ()
@@ -193,8 +246,26 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup ()
 		{
-			AppSetup.EnsureConnection();
+			if (Isolate)
+			{
+				AppSetup.BeginIsolate();
+			}
+			else
+			{
+				AppSetup.EnsureMemory();
+				AppSetup.EnsureConnection();
+			}
+
 			AppSetup.NavigateToIssue(GetType(), RunningApp);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (Isolate)
+			{
+				AppSetup.EndIsolate();
+			}
 		}
 #endif
 
@@ -205,6 +276,8 @@ namespace Xamarin.Forms.Controls
 	{
 #if UITEST
 		public IApp RunningApp => AppSetup.RunningApp;
+
+		protected virtual bool Isolate => false;
 #endif
 
 		protected TestCarouselPage ()
@@ -218,8 +291,26 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup()
 		{
-			AppSetup.EnsureConnection();
+			if (Isolate)
+			{
+				AppSetup.BeginIsolate();
+			}
+			else
+			{
+				AppSetup.EnsureMemory();
+				AppSetup.EnsureConnection();
+			}
+
 			AppSetup.NavigateToIssue(GetType(), RunningApp);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (Isolate)
+			{
+				AppSetup.EndIsolate();
+			}
 		}
 #endif
 
@@ -230,6 +321,8 @@ namespace Xamarin.Forms.Controls
 	{
 #if UITEST
 		public IApp RunningApp => AppSetup.RunningApp;
+
+		protected virtual bool Isolate => false;
 #endif
 
 		protected TestMasterDetailPage ()
@@ -243,8 +336,26 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup()
 		{
-			AppSetup.EnsureConnection();
+			if (Isolate)
+			{
+				AppSetup.BeginIsolate();
+			}
+			else
+			{
+				AppSetup.EnsureMemory();
+				AppSetup.EnsureConnection();
+			}
+
 			AppSetup.NavigateToIssue(GetType(), RunningApp);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (Isolate)
+			{
+				AppSetup.EndIsolate();
+			}
 		}
 #endif
 
@@ -255,6 +366,8 @@ namespace Xamarin.Forms.Controls
 	{
 #if UITEST
 		public IApp RunningApp => AppSetup.RunningApp;
+
+		protected virtual bool Isolate => false;
 #endif
 
 		protected TestNavigationPage ()
@@ -268,8 +381,26 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup()
 		{
-			AppSetup.EnsureConnection();
+			if (Isolate)
+			{
+				AppSetup.BeginIsolate();
+			}
+			else
+			{
+				AppSetup.EnsureMemory();
+				AppSetup.EnsureConnection();
+			}
+
 			AppSetup.NavigateToIssue(GetType(), RunningApp);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (Isolate)
+			{
+				AppSetup.EndIsolate();
+			}
 		}
 #endif
 
@@ -280,6 +411,8 @@ namespace Xamarin.Forms.Controls
 	{
 #if UITEST
 		public IApp RunningApp => AppSetup.RunningApp;
+
+		protected virtual bool Isolate => false;
 #endif
 
 		protected TestTabbedPage ()
@@ -293,8 +426,26 @@ namespace Xamarin.Forms.Controls
 		[SetUp]
 		public void Setup()
 		{
-			AppSetup.EnsureConnection();
+			if (Isolate)
+			{
+				AppSetup.BeginIsolate();
+			}
+			else
+			{
+				AppSetup.EnsureMemory();
+				AppSetup.EnsureConnection();
+			}
+
 			AppSetup.NavigateToIssue(GetType(), RunningApp);
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (Isolate)
+			{
+				AppSetup.EndIsolate();
+			}
 		}
 #endif
 
